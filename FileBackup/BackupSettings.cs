@@ -1,14 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
-using Serilog;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Encodings.Web;
+﻿using Serilog;
 using System.Text.Json;
 using System.Text.Json.Nodes;
-using System.Text.Unicode;
-using System.Threading.Tasks;
 
 namespace FileBackup
 {
@@ -22,8 +14,9 @@ namespace FileBackup
             string settings = File.ReadAllText("settings.json");
             var jsNode = JsonNode.Parse(settings)?["BackupSattings"];
             BackupSettings setting = jsNode.Deserialize(typeof(BackupSettings)) as BackupSettings;
-
-            Log.Logger.Information("Настройеки загружены");
+            SourceFolders = setting.SourceFolders;
+            TargetFolders = setting.TargetFolders;
+            Log.Logger.Information("Настройки загружены");
         }
     }
 }
