@@ -1,20 +1,21 @@
 ﻿using FileBackup;
-
-
-
-BackupSettings backupSettings = new BackupSettings()
-{
-    LogLevel = LogLevel.Info,
-    SourceFolders = new List<string>
-    {
-        @"C:\Users\laki\YandexDisk\Работа\Infotecs\Исходная папка"
-    },
-    TargetFolders = new List<string>
-    {
-        @"C:\Users\laki\YandexDisk\Работа\Infotecs\Целевая папка"
-    }
-};
-
-backupSettings.SaveSettings();
+using Microsoft.Extensions.Configuration;
+using Serilog;
 
 Console.WriteLine("Hello, World!");
+BackupSettings backupSettings = new BackupSettings();
+
+var configuration = new ConfigurationBuilder()
+    .AddJsonFile("settings.json")
+    .Build();
+
+var a = configuration.GetSection("BackupSattings").GetSection("SourceFolders").GetSection("0");
+
+Log.Logger = new LoggerConfiguration()
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+
+backupSettings.LoadSettings();
+Console.ReadLine();
+
+Log.CloseAndFlush();
