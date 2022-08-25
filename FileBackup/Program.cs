@@ -11,6 +11,7 @@ var configuration = new ConfigurationBuilder()
 
 Log.Logger = new LoggerConfiguration()
         .ReadFrom.Configuration(configuration)
+        .WriteTo.File($"Logs\\log ({DateTime.Now.ToString("MM.dd.yyyy HH.mm.ss")}).txt")
         .CreateLogger();
 
 Log.Logger.Information("Программа запущена");
